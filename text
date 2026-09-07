@@ -1,0 +1,38 @@
+Stage 1: Auto-Annotation (AI)
+  pipeline_1a_annotation_of_images/
+  - GPT-5.5 vision + EasyOCR analyzes HMI screenshots
+  - Outputs structured JSON with bounding boxes for all UI elements
+        |
+        v
+Stage 2: Human Review & Validation
+  Annotation_tool/
+  - Browser-based annotation tool (zero install)
+  - Load the Stage 1 JSON + original images
+  - Add missing elements, fix bounding boxes, validate labels
+  - Export corrected annotation JSON
+        |
+        v
+Stage 3: Final Merge
+  json/
+  - Merges human-reviewed annotations with navigation data (from PDF)
+  - Produces the final ground-truth dataset
+  annotation_and_navigation_merged_for_11pages_248images.json
+AI_solution_Steris/
+|
+|-- pipeline_1a_annotation_of_images/   <- Stage 1: AI Auto-Annotation
+|   |-- run_pipeline1.py                <- Entry point
+|   |-- pipeline1_kg_builder/           <- Core processing modules
+|   |-- config/                         <- Settings and environment config
+|   |-- utils/                          <- Shared utilities
+|   |-- output/                         <- JSON output (timestamped)
+|   +-- README.md                       <- Setup and usage guide
+|
+|-- Annotation_tool/                    <- Stage 2: Human Review Tool
+|   |-- index.html                      <- Annotation tool (single-file app)
+|   |-- json_after_annotation_using_tool.json  <- Exported reviewed JSON
+|   +-- README.md                       <- Tool usage guide
+|
++-- json/                               <- Stage 3: Final Merged Datasets
+    |-- navigation_json_11_pages.json   <- Raw PDF navigation data (11 pages)
+    |-- annotation_and_navigation_merged_for_11pages_248images.json  <- FINAL dataset
+    +-- README.md                       <- Dataset field reference
